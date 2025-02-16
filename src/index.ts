@@ -75,7 +75,7 @@ export default {
                 msg: text,
                 timestamp: new Date(),
                 user: decoded["id"],
-                chat_session: chatSession.sessionId, // Link message to session
+                chat_session: chatSession, // Link message to session
               },
             });
             
