@@ -5,7 +5,7 @@ export default {
   register() {},
 
   async bootstrap({ strapi }) {
-    const wss = new Server({ port: 8080 });
+    const wss = new Server({ server: strapi.server });
 
     wss.on("connection", async (ws, req) => {
       try {
