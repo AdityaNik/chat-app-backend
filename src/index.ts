@@ -40,6 +40,7 @@ export default {
           if (chatSession.length === 0) {
             chatSession = await strapi.entityService.create("api::chat-session.chat-session", {
               data: {
+                sessionId: Math.floor(Math.random() * 1000).toString(),
                 title: `Session ${Math.floor(Math.random() * 1000)}`,
                 user: decoded["id"],
               },
@@ -74,7 +75,7 @@ export default {
                 msg: text,
                 timestamp: new Date(),
                 user: decoded["id"],
-                chat_session: chatSession.id, // Link message to session
+                chat_session: chatSession.sessionId, // Link message to session
               },
             });
             
