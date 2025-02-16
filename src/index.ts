@@ -5,7 +5,14 @@ export default {
   register() {},
 
   async bootstrap({ strapi }) {
-    const wss = new Server({ server: strapi.server });
+    const wss = new Server({ noServer: true });
+
+    // Manually handle WebSocket upgrade requests
+    strapi.server.httpServer.on("upgrade", (request, socket, head) => {
+      wss.handleUpgrade(request, socket, head, (ws) => {
+        wss.emit("connection", ws, request);
+      });
+    });
 
     wss.on("connection", async (ws, req) => {
       try {
@@ -13,19 +20,14 @@ export default {
         const token = url.searchParams.get("token");
 
         if (!token) {
-          console.log("No token provided. Closing connection.");
+          console.log("❌ No token provided. Closing connection.");
           ws.close();
           return;
         }
 
         const decoded = jwt.verify(token, strapi.config.get("plugin.users-permissions.jwtSecret"));
-        console.log("User authenticated:", decoded);
+        console.log("✅ User authenticated:", decoded);
 
-
-        // Fetch or Create a Chat Session for this user
-          
-
-        // console.log(`Chat session active: ${chatSession.id}`);
 
         ws.on("message", async (message) => {
           try {
@@ -100,6 +102,6 @@ export default {
       }
     });
 
-    console.log("WebSocket server running on ws://localhost:8080");
+    console.log("WebSocket server running on production");
   },
 };
