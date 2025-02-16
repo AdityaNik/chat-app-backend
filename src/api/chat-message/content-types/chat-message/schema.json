@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chat_messages",
+  "info": {
+    "singularName": "chat-message",
+    "pluralName": "chat-messages",
+    "displayName": "ChatMessage"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "chatId": {
+      "type": "uid"
+    },
+    "chat_session": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::chat-session.chat-session",
+      "inversedBy": "chat_messages"
+    },
+    "sender": {
+      "type": "enumeration",
+      "enum": [
+        "user",
+        "bot"
+      ]
+    },
+    "msg": {
+      "type": "text"
+    },
+    "timestamp": {
+      "type": "datetime"
+    }
+  }
+}
