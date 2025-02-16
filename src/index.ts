@@ -40,7 +40,7 @@ export default {
           if (chatSession.length === 0) {
             chatSession = await strapi.entityService.create("api::chat-session.chat-session", {
               data: {
-                title: `Session ${new Date().getTime.toString()}`,
+                title: `Session ${Math.floor(Math.random() * 1000)}`,
                 user: decoded["id"],
               },
             });
